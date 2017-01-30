@@ -37,6 +37,6 @@ roman_to_int(roman1);
 
 roman_to_int(roman2);
 
-answer = <Perform your operation on roman1 and roman2>;
+answer = Perform your operation on roman1 and roman2;
 
 int_to_roman(answer);
