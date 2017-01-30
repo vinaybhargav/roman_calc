@@ -2,7 +2,8 @@
 
 #include "Roman_calc.h"
 
-
+//int_to_roman tests.
+//Test1: check conversion for int above 1000.
 START_TEST(test1)
 {
 
@@ -16,6 +17,8 @@ START_TEST(test1)
 }
 END_TEST
 
+
+//test2: check conversion for int below 1000, but with high roman character count.
 START_TEST(test2)
 {
 
@@ -23,17 +26,18 @@ START_TEST(test2)
 	Roman_num roman2;
 	roman2 = int_to_roman(num);
 	fail_unless(roman2.roman[0] == 'D');
-    	fail_unless(roman2.roman[1] == 'C');
-    	fail_unless(roman2.roman[2] == 'C');
+	fail_unless(roman2.roman[1] == 'C');
+	fail_unless(roman2.roman[2] == 'C');
 	fail_unless(roman2.roman[3] == 'C');
 	fail_unless(roman2.roman[4] == 'X');
-    	fail_unless(roman2.roman[5] == 'X');
-    	fail_unless(roman2.roman[6] == 'X');
+	fail_unless(roman2.roman[5] == 'X');
+	fail_unless(roman2.roman[6] == 'X');
 	fail_unless(roman2.roman[7] == 'I');
 
 }
 END_TEST
 
+//test3: check for int less than 10.
 START_TEST(test3)
 {
 
@@ -41,11 +45,13 @@ START_TEST(test3)
 	Roman_num roman3;
 	roman3 = int_to_roman(num);
 	fail_unless(roman3.roman[0] == 'I');
-    	fail_unless(roman3.roman[1] == 'V');
+	fail_unless(roman3.roman[1] == 'V');
 
 }
 END_TEST
 
+
+//test4: check for int which can be represnted by single roman character.
 START_TEST(test4)
 {
 
@@ -54,7 +60,6 @@ START_TEST(test4)
 	roman3 = int_to_roman(num);
 	fail_unless(roman3.roman[0] == 'L');
 	
-    
 }
 END_TEST
 

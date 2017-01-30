@@ -2,6 +2,8 @@
 
 #include "Roman_calc.h"
 
+//int_to_roman tests.
+//Test1: check conversion for int above 1000.
 START_TEST(test1)
 {
 
@@ -15,6 +17,8 @@ START_TEST(test1)
 }
 END_TEST
 
+
+//test2: check conversion for int below 1000, but with high roman character count.
 START_TEST(test2)
 {
 
@@ -33,6 +37,7 @@ START_TEST(test2)
 }
 END_TEST
 
+//test3: check for int less than 10.
 START_TEST(test3)
 {
 
@@ -45,6 +50,8 @@ START_TEST(test3)
 }
 END_TEST
 
+
+//test4: check for int which can be represnted by single roman character.
 START_TEST(test4)
 {
 
@@ -56,6 +63,9 @@ START_TEST(test4)
 }
 END_TEST
 
+
+//roman_to_int() tests
+//test5: conversion of a roman number with high character count. 
 START_TEST(test5)
 {
 
@@ -67,6 +77,8 @@ START_TEST(test5)
 }
 END_TEST
 
+
+//test6: conversion of smaller roman numeral
 START_TEST(test6)
 {
 

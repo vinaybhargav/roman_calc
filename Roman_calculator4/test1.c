@@ -2,6 +2,8 @@
 
 #include "Roman_calc.h"
 
+//int_to_roman tests.
+//Test1: check conversion for int above 1000.
 START_TEST(test1)
 {
 
@@ -15,6 +17,8 @@ START_TEST(test1)
 }
 END_TEST
 
+
+//test2: check conversion for int below 1000, but with high roman character count.
 START_TEST(test2)
 {
 
@@ -33,6 +37,7 @@ START_TEST(test2)
 }
 END_TEST
 
+//test3: check for int less than 10.
 START_TEST(test3)
 {
 
@@ -45,6 +50,8 @@ START_TEST(test3)
 }
 END_TEST
 
+
+//test4: check for int which can be represnted by single roman character.
 START_TEST(test4)
 {
 
@@ -56,89 +63,104 @@ START_TEST(test4)
 }
 END_TEST
 
+
+//roman_to_int() tests
+//test5: conversion of a roman number with high character count. 
 START_TEST(test5)
 {
 
 	int num = 0;
-	Roman_num roman = {{"MMMCMXXXIII"},0,11};
-	num = roman_to_int(roman.roman,roman.num_size);
+	Roman_num roman = { { "MMMCMXXXIII" },0,11 };
+	num = roman_to_int(roman.roman, roman.num_size);
 	fail_unless(num == 3933);
 
 }
 END_TEST
 
+
+//test6: conversion of smaller roman numeral
 START_TEST(test6)
 {
 
 	int num = 0;
-	Roman_num roman = {{"LIX"},0,3};
-	num = roman_to_int(roman.roman,roman.num_size);
+	Roman_num roman = { { "LIX" },0,3 };
+	num = roman_to_int(roman.roman, roman.num_size);
 	fail_unless(num == 59);
+
 
 }
 END_TEST
 
+
+//Test cases for check_for_errors() function
+//test7: Check on valid roman numeral.
 START_TEST(test7)
 {
 
 	int num = 0;
-	Roman_num roman = {{"LIX"},0,3};
-	num = check_for_errors(roman.roman,roman.num_size);
+	Roman_num roman = { { "LIX" },0,3 };
+	num = check_for_errors(roman.roman, roman.num_size);
 	fail_unless(num == 1);
 
 }
 END_TEST
 
+//test8: check on an invalid string.
 START_TEST(test8)
 {
 
 	int num = 0;
-	num = check_for_errors("Hi",2);
+	num = check_for_errors("Hi", 2);
 	fail_unless(num == 0);
 
 }
 END_TEST
 
+
+//test9: check on lower case characters. Roman case did not use lower case.
 START_TEST(test9)
 {
 
 	int num = 0;
-	num = check_for_errors("mmmcm",5); //lowercase should give error
+	num = check_for_errors("mmmcm", 5); //lowercase should give error
 	fail_unless(num == 0);
 
 }
 END_TEST
 
+//test10: check on contiguous L. LL = 100 = C. Therefore, LL is invalid.
 START_TEST(test10)
 {
 
 	int num = 0;
-	num = check_for_errors("LL",2);
+	num = check_for_errors("LL", 2);
 	fail_unless(num == 0);
 
 }
 END_TEST
 
+//test11: check on contiguous C. CCCC = 400 = CD. Therefore, CCCC invalid representation.
 START_TEST(test11)
 {
-
 	int num = 0;
-	num = check_for_errors("CCCC",4);
+	num = check_for_errors("CCCC", 4);
 	fail_unless(num == 0);
 
 }
 END_TEST
 
+//test12: Check on contiguous M. Contoguous M are valid. So there should be no errors.
 START_TEST(test12)
 {
-
 	int num = 0;
-	num = check_for_errors("MMMMM",5);
+	num = check_for_errors("MMMMM", 5);
 	fail_unless(num == 1);
-
 }
 END_TEST
 
+
+//Test cases for Roman_calc() func.
+//test13: Check for a addition of two valid roman numbers.
 START_TEST(test13)
 {
 
@@ -152,6 +174,7 @@ START_TEST(test13)
 }
 END_TEST
 
+//test14: check for condition when subtraction yields 0; 
 START_TEST(test14)
 {
 
@@ -162,6 +185,7 @@ START_TEST(test14)
 }
 END_TEST
 
+//test15: check for condition where subtraction yields negative number.
 START_TEST(test15)
 {
 
@@ -173,6 +197,7 @@ START_TEST(test15)
 }
 END_TEST
 
+//test16: check for subtraction of two valid roman numerals.
 START_TEST(test16)
 {
 
@@ -186,6 +211,7 @@ START_TEST(test16)
 }
 END_TEST
 
+//test17: check for an invalid operation input. / is not supported. Only + and - are supported.
 START_TEST(test17)
 {
 
