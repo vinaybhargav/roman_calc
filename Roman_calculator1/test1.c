@@ -23,12 +23,12 @@ START_TEST(test2)
 	Roman_num roman2;
 	roman2 = int_to_roman(num);
 	fail_unless(roman2.roman[0] == 'D');
-    fail_unless(roman2.roman[1] == 'C');
-    fail_unless(roman2.roman[2] == 'C');
+    	fail_unless(roman2.roman[1] == 'C');
+    	fail_unless(roman2.roman[2] == 'C');
 	fail_unless(roman2.roman[3] == 'C');
 	fail_unless(roman2.roman[4] == 'X');
-    fail_unless(roman2.roman[5] == 'X');
-    fail_unless(roman2.roman[6] == 'X');
+    	fail_unless(roman2.roman[5] == 'X');
+    	fail_unless(roman2.roman[6] == 'X');
 	fail_unless(roman2.roman[7] == 'I');
 
 }
@@ -41,7 +41,7 @@ START_TEST(test3)
 	Roman_num roman3;
 	roman3 = int_to_roman(num);
 	fail_unless(roman3.roman[0] == 'I');
-    fail_unless(roman3.roman[1] == 'V');
+    	fail_unless(roman3.roman[1] == 'V');
 
 }
 END_TEST
