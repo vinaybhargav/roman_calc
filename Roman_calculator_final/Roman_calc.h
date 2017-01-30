@@ -10,6 +10,8 @@
 #define VAL_D 500
 #define VAL_M 1000
 
+#define NO_OF_DISTINCT_ROMANS 7
+
 
 typedef struct
 {
