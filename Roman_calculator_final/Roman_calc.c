@@ -170,7 +170,7 @@ int check_for_errors(char roman_num[], int num_size)
                         return 0;
                     }
                 }
-                if((i+1) < num_size && j%2 == 1)
+                else if((i+1) < num_size && j%2 == 1)
                 {
                     if (roman_num[i + 1] == rt[j].roman[0] || roman_num[i + 1] == rt[j+1].roman[0])
                     {
