@@ -23,7 +23,31 @@ Following operations are supported in this library.
 Check the Roman_calc.h header file for more info.
 
 
-#How to use?
+# How to build files in Roman Calc?
+
+### To build and run the unit tests.
+
+Run the shell script buil_and_run_test.sh . 
+
+This script compiles the library, the unit test file and then runs the unit test executable.
+
+### To build just the Roman Calc library
+
+Run "make libs" in console.
+
+This will only compile the Roman Calc library. The compiled library will be in the libs folder.
+
+### To build just the unit test file
+
+Run "make test" in console.
+
+This will only compile the unit test file test1.c and create test1.out executable. 
+
+Run ./test1.out to run all unit tests on the Roman_calc.c file.
+
+
+# How to use the API supported by Roman Calc library?
+The following is a pseudo-code example:
 
 input roman1;
 
