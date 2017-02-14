@@ -1,13 +1,10 @@
-#include "Roman_calc.h"
+#include "include/Roman_calc.h"
 
-const Roman_num rt[7]  = {{{'I'},VAL_I,1},{{'V'},VAL_V,1},{{'X'},VAL_X,1},{{'L'},VAL_L,1},{{'C'},VAL_C,1},{{'D'},VAL_D,1},{{'M'},VAL_M,1}};
+const Roman_num rt[NO_OF_DISTINCT_ROMANS]  = {{{'I'},VAL_I,1},{{'V'},VAL_V,1},{{'X'},VAL_X,1},{{'L'},VAL_L,1},{{'C'},VAL_C,1},{{'D'},VAL_D,1},{{'M'},VAL_M,1}};
 
 /*
 Finds out cases like IV, IC, IX, where there should be a smaller Roman before a larger.
 Used to convert integer to roman correctly.
-Working: Assume num = 991. The function will get the  remainder of 991 divided by closest Roman number M - rt[i](1000 - rt[i]).
-		 The remainder is checked if it is less than rt[i] - temp (1-0, 5-1, 10-5, 50-10, 100-50 ). If the remainder is lesser than the checked value 
-		 then it returns the roman charater at rt[i]. 
 */
 char close_to_roman(int look_close, int current_roman_value, int *num)
 {
@@ -22,7 +19,7 @@ char close_to_roman(int look_close, int current_roman_value, int *num)
         {
             temp = rt[i-1].roman_in_int;
         }
-        if((*num % (current_roman_value - rt[i].roman_in_int )) < (rt[i].roman_in_int - temp))  
+        if((*num % (current_roman_value - rt[i].roman_in_int )) < (rt[i].roman_in_int - temp))
         {
             *num -= (current_roman_value - rt[i].roman_in_int);
             return rt[i].roman[0];
@@ -38,8 +35,7 @@ Output is of type Roman_num
 */
 Roman_num int_to_roman(int num)
 {
-    int temp_num = 0, look_close; //look close is the iterator sent to close_to_roman(). 
-								  //Value of look_close depends on value of num. 
+    int temp_num = 0, look_close;
     Roman_num R;
     R.roman[0] = 0;
     R.roman_in_int = num;
@@ -51,28 +47,28 @@ Roman_num int_to_roman(int num)
         {
             if(num >= rt[i].roman_in_int)
             {
-                temp_num = num / rt[i].roman_in_int; //find the quotient to get the number of times the roman character rt[i] repeats.
+                temp_num = num / rt[i].roman_in_int;
                 for(int j = 0; j < temp_num ; j++)
                 {
-                    R.roman[R.num_size] = rt[i].roman[0];	//Assign rt[i] to R.roman
-                    R.num_size++;							//increase the size.
-                }	
-                num = num % rt[i].roman_in_int;             //decrease the num
+                    R.roman[R.num_size] = rt[i].roman[0];
+                    R.num_size++;
+                }
+                num = num % rt[i].roman_in_int;
             }
             look_close = 0;
-            if(num >= (VAL_D - VAL_C))	//if the value is greater than 400, then close_to_roman should iterate from I to C in rt[].
+            if(num >= (VAL_D - VAL_C))
             {
                 look_close = 5;
             }
-            else if(num >= (VAL_L - VAL_X)) //if the value is greater than 40, then close_to_roman should iterate from I to X in rt[].
+            else if(num >= (VAL_L - VAL_X))
             {
                 look_close = 3;
             }
-            else if(num >= (VAL_V - VAL_I)) //if the value is greater than 4, then close_to_roman should only look for I in rt[].
+            else if(num >= (VAL_V - VAL_I))
             {
                 look_close = 1;
             }
-            char c = close_to_roman(look_close,rt[i].roman_in_int,&num); //find cases like IV, IX, XC etc.. If present then assign it to R.roman accordingly.
+            char c = close_to_roman(look_close,rt[i].roman_in_int,&num);
             if(c)
             {
                 R.roman[R.num_size] = c;
@@ -89,7 +85,7 @@ Roman_num int_to_roman(int num)
 }
 
 /*
-This function looks one character forward in the Roman char array to determine if there is a bigger roman number, so as to find cases like IV, IX, CM...
+This function looks one character forward in the Roman char array to determine if there is a bigger roman number, so as to find cases like IV, IX, CM
 Inputs : current = index of current Roman according to table.
          next_roman = roman character which is one ahead in the array.(see roman_to_int() for example.)
 
@@ -97,7 +93,7 @@ Output: is a flag 1 or 0 indicating true or false respectively. If return value 
 */
 int look_forward_for_bigger_roman(int current, char next_roman)
 {
-    for(int i = current + 1; i < NO_OF_DISTINCT_ROMANS; i++)
+    for(int i = current+1; i < NO_OF_DISTINCT_ROMANS; i++)
     {
         if(next_roman == rt[i].roman[0])
             return 1;
@@ -117,83 +113,15 @@ int roman_to_int(char roman_num[],int num_size)
     for(int i = 0; i < num_size; i++)
     {
         int ret = 0;
-        switch(roman_num[i])
+        for(int j = 0; j < NO_OF_DISTINCT_ROMANS ; j++ )
         {
-            case 'I':
-                ret = look_forward_for_bigger_roman(0,roman_num[i+1]);
-                if(ret)
-                {
-                    num += -VAL_I;
-                }
-                else
-                {
-                    num += VAL_I;
-                }
-                break;
+            if(roman_num[i] == rt[j].roman[0])
+            {
+                if(i+1 < num_size)
+                    ret = look_forward_for_bigger_roman(j,roman_num[i+1]);
 
-            case 'V':
-                ret = look_forward_for_bigger_roman(1,roman_num[i+1]);
-                if(ret)
-                {
-                    num += -VAL_V;
-                }
-                else
-                {
-                    num += VAL_V;
-                }
-                break;
-
-            case 'X':
-                ret = look_forward_for_bigger_roman(2,roman_num[i+1]);
-                if(ret)
-                {
-                    num += -VAL_X;
-                }
-                else
-                {
-                    num += VAL_X;
-                }
-                break;
-
-            case 'L':
-                ret = look_forward_for_bigger_roman(3,roman_num[i+1]);
-                if(ret)
-                {
-                    num += -VAL_L;
-                }
-                else
-                {
-                    num += VAL_L;
-                }
-                break;
-
-            case 'C':
-                ret = look_forward_for_bigger_roman(4,roman_num[i+1]);
-                if(ret)
-                {
-                    num += -VAL_C;
-                }
-                else
-                {
-                    num += VAL_C;
-                }
-                break;
-
-            case 'D':
-                ret = look_forward_for_bigger_roman(5,roman_num[i+1]);
-                if(ret)
-                {
-                    num += -VAL_D;
-                }
-                else
-                {
-                    num += VAL_D;
-                }
-                break;
-
-            case 'M':
-                num += VAL_M;
-                break;
+                num = ret > 0 ? num - rt[j].roman_in_int : num + rt[j].roman_in_int;
+            }
         }
     }
 
@@ -216,13 +144,12 @@ int validate_roman_char(char c)
 
 
 /*
-Checks the roman character array for errors. Errors like XXXX, CCCC, DD, LL, DM, LC etc.. are caught in this function.
+Checks the roman character array for errors. Errors like XXXX, CCCC, DD, LL etc.. are caught in this function.
 Input = roman character array and its size.
 Output = Returns 0 if the roman character has errors, else returns 1
 */
 int check_for_errors(char roman_num[], int num_size)
 {
-
     for(int i = 0; i < num_size; i++)
     {
         int ret = validate_roman_char(roman_num[i]);
@@ -231,70 +158,27 @@ int check_for_errors(char roman_num[], int num_size)
             printf("Invalid Roman number.\n");
             return 0;
         }
-        if((i+3) < num_size)
+        for(int j = 0; j < NO_OF_DISTINCT_ROMANS-1; j++)
         {
-			switch (roman_num[i])
-			{
-				case 'X':
-					if (roman_num[i + 1] == 'X' && roman_num[i + 2] == 'X' && roman_num[i + 3] == 'X')
-					{
-						printf("Invalid Roman number.\n");
-						return 0;
-					}
-					break;
-
-				case 'I':
-					if (roman_num[i + 1] == 'I' && roman_num[i + 2] == 'I' && roman_num[i + 3] == 'I')
-					{
-						printf("Invalid Roman number.\n");
-						return 0;
-					}
-					break;
-
-				case 'C':
-					if (roman_num[i + 1] == 'C' && roman_num[i + 2] == 'C' && roman_num[i + 3] == 'C')
-					{
-						printf("Invalid Roman number.\n");
-						return 0;
-					}
-					break;
-
-				default:
-					break;
-			}
-            
-        }
-        if((i+1) < num_size)
-        {
-			switch (roman_num[i])
-			{
-				case 'D':
-					if (roman_num[i + 1] == 'D' || roman_num[i + 1] == 'M') 
-					{
-						printf("Invalid Roman number.\n");
-						return 0;
-					}
-					break;
-
-				case 'L':
-					if (roman_num[i + 1] == 'L' || roman_num[i + 1] == 'C')
-					{
-						printf("Invalid Roman number.\n");
-						return 0;
-					}
-					break;
-
-				case 'V':
-					if (roman_num[i + 1] == 'V' || roman_num[i + 1] == 'X')
-					{
-						printf("Invalid Roman number.\n");
-						return 0;
-					}
-					break;
-
-				default:
-					break;
-			}
+            if(roman_num[i] == rt[j].roman[0])
+            {
+                if((i+3) < num_size && j%2 == 0)
+                {
+                    if (roman_num[i + 1] == rt[j].roman[0] && roman_num[i + 2] == rt[j].roman[0] && roman_num[i + 3] == rt[j].roman[0])
+                    {
+                        printf("Invalid Roman number.\n");
+                        return 0;
+                    }
+                }
+                if((i+1) < num_size && j%2 == 1)
+                {
+                    if (roman_num[i + 1] == rt[j].roman[0] || roman_num[i + 1] == rt[j+1].roman[0])
+                    {
+                        printf("Invalid Roman number.\n");
+                        return 0;
+                    }
+                }
+            }
         }
     }
 
@@ -311,7 +195,6 @@ Roman_num Roman_calc(char roman_num1[], char roman_num2[], int num1_size, int nu
 {
     int num1 = 0, num2 = 0, answer = 0;
 
-
     num1 = roman_to_int(roman_num1, num1_size);
     num2 = roman_to_int(roman_num2, num2_size);
 
@@ -327,6 +210,5 @@ Roman_num Roman_calc(char roman_num1[], char roman_num2[], int num1_size, int nu
     {
         printf("Operation not supported\n");
     }
-   
     return int_to_roman(answer);
 }
